@@ -1,0 +1,68 @@
+Lazy Loading is a technique where components not required on the Home Page can be splits into many code bundles and downloaded when user navigated to that page. 
+You can think of it is incrementally downloading the application it helps reduce initial time thereby improving performance 
+To use Lazy Loading we need dynamic import and react suspense.
+
+
+import React from 'react';           // <------------------------
+import {Routes , Route} from 'react-router-dom';
+
+import Home from './components/Home';
+
+
+// import About from './components/About';     <-----------------------
+
+import Navbar from './components/Navbar';
+import OrderConfirm from './components/OrderConfirm';
+import NoMatch from './components/NoMatch';
+import Product from './components/Product';
+import NewProduct from './components/NewProduct';
+import FeaturedProduct from './components/FeaturedProduct';
+import User from './components/User';
+import UserDetail from './components/UserDetail';
+import Admin from './components/Admin';
+
+const LazyAbout = React.lazy(()=>import('./components/About'));     // <-----------------------
+
+
+function App() {
+  return (
+    <div>
+      <Navbar />
+      <Routes>
+          <Route path='/' element={ <Home /> } />
+          <Route path='about' element={
+            <React.Suspense fallback='Loading...'><LazyAbout /></React.Suspense> } />      //<------------------------------------
+          <Route path='order-page' element={ <OrderConfirm />} />
+          <Route path='*' element={<NoMatch />} />
+
+          <Route path='/product' element={<Product />}>
+
+          <Route index element={<NewProduct />}/>
+
+          <Route path='features' element={<FeaturedProduct />} />
+          <Route path='new' element={<NewProduct />} />
+
+          </Route>
+         
+          {/* In Dynaminc Route react router will always tries to match more specific before matching any dynamic route. */}
+          <Route path='/user' element={<User/>}>
+            <Route path=':id' element={<UserDetail />} />
+            <Route path='admin' element={<Admin/>} />
+          </Route>
+          
+          {/*Dynaminc Route*/}
+            
+          {/* <Route path='user/:id' element={<UserDetail />} />
+
+          <Route path='user/admin' element={<Admin/>} /> */}
+
+          {/* <Route path='user/1' element={<UserDetail />} />
+          <Route path='user/2' element={<UserDetail />} />
+          <Route path='user/3' element={<UserDetail />} /> */}
+
+      </Routes>
+    </div>
+  );
+}
+
+export default App;
