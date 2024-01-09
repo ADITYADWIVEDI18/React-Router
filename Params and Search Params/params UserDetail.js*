@@ -1,0 +1,20 @@
+import React from 'react'
+import { useParams } from 'react-router-dom'
+const UserDetail = () => {
+       //From App.js <Route path='user/:id' element={<UserDetail />} />
+
+
+    //    const params = useParams()
+    //    const userid = params.id
+
+        const { id } = useParams()
+
+  return (
+    <div>
+        {/* <h1>User Detail about user {userid}.</h1> */}
+        <h1>User Detail about user {id}.</h1>
+    </div>
+  )
+}
+
+export default UserDetail
